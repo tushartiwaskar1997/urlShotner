@@ -11,8 +11,8 @@ public interface ulrShorterInterface {
     boolean checkIfCurrentShortUrlPresentOrNotForGivenLongUlr(String shortUrl);
     
     String getUrl(String shortUrl) throws Exception;
-    Integer getHitCount(String longUrl);
-    String delete(String longUrl);
+    Integer getHitCount(String shortUrl);
+    String delete(String shortUrl);
 
 
 }
