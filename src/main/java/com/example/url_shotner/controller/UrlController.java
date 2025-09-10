@@ -31,7 +31,7 @@ public class UrlController {
     @GetMapping("/" + AppConstants.freeDomainName + "{shortUrl}")
     private ResponseEntity<Object> getTheShortUrlDetails(@PathVariable String shortUrl) throws Exception {
        String redirectUrl = urlShorterService.getUrl(AppConstants.freeDomainName + shortUrl.trim());
-        return ResponseEntity.status(HttpStatus.FOUND).header("location", redirectUrl).build();
+        return ResponseEntity.status(HttpStatus.FOUND).header(AppConstants.headerLocation, redirectUrl).build();
     }
 
     @PostMapping("/createShortUrl")
