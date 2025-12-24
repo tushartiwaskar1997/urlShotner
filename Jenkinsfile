@@ -20,9 +20,9 @@ pipeline {
         stage('cleanup stage') {
             steps {
                 script {
-                    PREVIOUS_BUILD_NUMBER = env.BUILD_NUMBER.toInteger - 1
-                    PREVIOUS_IMAGE_NAME = "%IMAGE_NAME%:V${PREVIOUS_BUILD_NUMBER}"
-                    PREVIOUS_CONTAINER_NAME = "%IMAGE_NAME%_${BUILD_NUMBER}"
+                    def PREVIOUS_BUILD_NUMBER = env.BUILD_NUMBER.toInteger - 1
+                    def PREVIOUS_IMAGE_NAME = "%IMAGE_NAME%:V${PREVIOUS_BUILD_NUMBER}"
+                    def PREVIOUS_CONTAINER_NAME = "%IMAGE_NAME%_${BUILD_NUMBER}"
 
                     echo "removing the image  ${PREVIOUS_IMAGE_NAME}"
                     echo "removing the container ${PREVIOUS_CONTAINER_NAME}"
