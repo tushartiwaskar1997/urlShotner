@@ -6,7 +6,6 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'imagecreatedbypiple'
-        TAG_NAME = 'latest'
         CONTAINER_NAME = "%IMAGE_NAME%_${BUILD_NUMBER}"
         BUILD_NUMBER_TRACK = "${BUILD_NUMBER}"
     }
@@ -18,6 +17,23 @@ pipeline {
             }
         }
 
+        stage('cleanup stage') {
+            steps {
+                script {
+                    PREVIOUS_BUILD_NUMBER = env.BUILD_NUMBER.toInteger - 1
+                    PREVIOUS_IMAGE_NAME = "%IMAGE_NAME%:V${PREVIOUS_BUILD_NUMBER}"
+                    PREVIOUS_CONTAINER_NAME = "%IMAGE_NAME%_${BUILD_NUMBER}"
+
+                    echo "removing the image  ${PREVIOUS_IMAGE_NAME}"
+                    echo "removing the container ${PREVIOUS_CONTAINER_NAME}"
+
+                    bat  "docker rm -f ${PREVIOUS_CONTAINER_NAME} || exit 0"
+
+                    bat  "docker rmi -f ${PREVIOUS_IMAGE_NAME} || exit 0"
+                }
+            }
+        }
+
         stage('building docker image') {
             steps {
                 bat 'docker build -t %IMAGE_NAME%:V%BUILD_NUMBER_TRACK% .'
@@ -26,7 +42,7 @@ pipeline {
 
         stage('create the container of the image') {
             steps {
-                bat 'docker run -d --name CONTAINER_NAME %IMAGE_NAME%:V%BUILD_NUMBER_TRACK%'
+                bat 'docker run -d --name %CONTAINER_NAME% %IMAGE_NAME%:V%BUILD_NUMBER_TRACK%'
             }
         }
     }
