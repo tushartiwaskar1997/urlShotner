@@ -6,7 +6,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'imagecreatedbypiple'
-        CONTAINER_NAME = "%IMAGE_NAME%${BUILD_NUMBER}"
+        CONTAINER_NAME = "${IMAGE_NAME}_${BUILD_NUMBER}"
         BUILD_NUMBER_TRACK = "${BUILD_NUMBER}"
     }
 
@@ -20,7 +20,7 @@ pipeline {
         stage('cleanup stage') {
             steps {
                 script {
-                    def PREVIOUS_BUILD_NUMBER = env.BUILD_NUMBER - 1
+                    def PREVIOUS_BUILD_NUMBER = env.BUILD_NUMBER.toInteger() - 1
                     def PREVIOUS_IMAGE_NAME = "%IMAGE_NAME%:V${PREVIOUS_BUILD_NUMBER}"
                     def PREVIOUS_CONTAINER_NAME = "%IMAGE_NAME%_${PREVIOUS_BUILD_NUMBER}"
 
