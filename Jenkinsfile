@@ -8,7 +8,7 @@ pipeline {
         IMAGE_NAME = 'imagecreatedbypiple'
         TAG_NAME = 'latest'
         CONTAINER_NAME = "%IMAGE_NAME%_${BUILD_NUMBER}"
-        BUILD_NUMBER_TRACK = ${BUILD_NUMBER};
+        BUILD_NUMBER_TRACK = "${BUILD_NUMBER}"
     }
 
     stages {
